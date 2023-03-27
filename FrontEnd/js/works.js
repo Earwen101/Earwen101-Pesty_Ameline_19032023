@@ -105,6 +105,9 @@ const fetchProjects = (id = 0) => {
           createNewWork(elm.title, elm.imageUrl, "gallery");
         }
       });
+    })
+    .catch((error) => {
+      console.log(error);
     });
 };
 
@@ -122,6 +125,9 @@ fetch("http://localhost:5678/api/categories", {
       createCategories(elm.id, elm.name, "filters", "li");
       createCategories(elm.id, elm.name, "select-photo", "option");
     });
+  })
+  .catch((error) => {
+    console.log(error);
   });
 
 fetchProjects();
@@ -158,5 +164,8 @@ document.getElementById("form").addEventListener("submit", function (event) {
     .then((response) => {
       return response.json();
     })
-    .then((data) => {});
+    .then((data) => {})
+    .catch((error) => {
+      console.log(error);
+    });
 });
