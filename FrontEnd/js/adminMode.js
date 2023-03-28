@@ -77,19 +77,11 @@ arrow.addEventListener("click", () => {
 });
 
 fond.addEventListener("click", () => {
-  if (fond.style.display !== "none") {
+  if (imgCrossArrow.style.display !== "none") {
+    modal.style.display = "none";
     modalAdd.style.display = "none";
   } else {
+    modal.style.display = "flex";
     modalAdd.style.display = "flex";
   }
 });
-
-// fond.addEventListener("click", () => {
-//   if (fond.style.display !== "none") {
-//     modalAdd.style.display = "none";
-//     modal.style.display = "none";
-//   } else {
-//     modalAdd.style.display = "flex";
-//     modal.style.display = "flex";
-//   }
-// });
