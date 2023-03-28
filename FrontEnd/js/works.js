@@ -1,4 +1,4 @@
-const createNewWork = (name, imgUrl, id, edit = false, workId = 0) => {
+const createNewWork = (name, imgUrl, id, edit = false, workId = 0, first = 0) => {
   // get work div
   const workBox = document.getElementById(id);
 
@@ -6,8 +6,26 @@ const createNewWork = (name, imgUrl, id, edit = false, workId = 0) => {
   const figure = document.createElement("figure");
   const figcaption = document.createElement("figcaption");
   const img = document.createElement("img");
-  // const binDiv = document.createElement("div");
-  // binDiv.classList.add("bin");
+
+  const binDiv = document.createElement("div");
+  const binDivImg = document.createElement("img");
+
+  binDivImg.setAttribute("src", "./assets/icons/bin.svg");
+  binDivImg.setAttribute("crossorigin", "anonymous");
+  binDiv.classList.add("bin");
+
+
+  // assign data in html elements
+  img.setAttribute("src", imgUrl);
+  img.setAttribute("crossorigin", "anonymous");
+
+  const binDivMove = document.createElement("div");
+  const binDivMoveImg = document.createElement("img");
+
+  binDivMoveImg.setAttribute("src", "./assets/icons/move.svg");
+  binDivMoveImg.setAttribute("crossorigin", "anonymous");
+  binDivMove.classList.add("binMove");
+
 
   // assign data in html elements
   img.setAttribute("src", imgUrl);
@@ -31,6 +49,12 @@ const createNewWork = (name, imgUrl, id, edit = false, workId = 0) => {
           console.log(data);
         });
     });
+    figure.appendChild(binDiv);
+    binDiv.appendChild(binDivImg);
+    if (first === 0) {
+      figure.appendChild(binDivMove);
+      binDivMove.appendChild(binDivMoveImg);
+    }
   }
 
   // add html elements in parent element
@@ -88,7 +112,7 @@ const fetchProjects = (id = 0) => {
     })
     .then((data) => {
       document.getElementById("gallery").innerHTML = "";
-      data.forEach((elm) => {
+      data.forEach((elm, i) => {
         if (id !== 0) {
           if (elm.categoryId === id) {
             createNewWork(
@@ -96,12 +120,13 @@ const fetchProjects = (id = 0) => {
               elm.imageUrl,
               "gallery-modal",
               true,
-              elm.id
+              elm.id,
+              i
             );
             createNewWork(elm.title, elm.imageUrl, "gallery");
           }
         } else {
-          createNewWork(elm.title, elm.imageUrl, "gallery-modal", true, elm.id);
+          createNewWork(elm.title, elm.imageUrl, "gallery-modal", true, elm.id, i);
           createNewWork(elm.title, elm.imageUrl, "gallery");
         }
       });
@@ -153,19 +178,36 @@ document.getElementById("form").addEventListener("submit", function (event) {
   formData.append("category", event.target[2].value);
   formData.append("image", event.target[0].files[0]);
 
-  fetch("http://localhost:5678/api/works", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-    },
-    body: formData,
-  })
-    .then((response) => {
-      return response.json();
+  console.log(event.target[1].value);
+  console.log(event.target[2].value);
+  console.log(event.target[3].value);
+
+  if (event.target[1].value !== "" && event.target[1].value !== "") {
+    fetch("http://localhost:5678/api/works", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      },
+      body: formData,
     })
-    .then((data) => {})
-    .catch((error) => {
-      console.log(error);
-    });
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => { })
+      .catch((error) => {
+        console.log(error);
+      });
+  } else {
+    document.getElementById("add-photos").style.border = "2px solid red"
+    document.getElementById("add-photos").style.backgroundColor = "#ff000015"
+    document.getElementById("text").style.border = "2px solid red"
+    document.getElementById("text").style.backgroundColor = "#ff000015"
+    document.getElementById("file").style.border = "2px solid red"
+    document.getElementById("file").style.backgroundColor = "#ff000015"
+  }
 });
+
+document.getElementById('fond').addEventListener('click', () => {
+  console.log("click dehors");
+})
