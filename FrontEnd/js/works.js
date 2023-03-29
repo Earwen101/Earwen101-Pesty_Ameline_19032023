@@ -1,8 +1,6 @@
 const createNewWork = (name, imgUrl, id, edit = false, workId = 0, first = 0) => {
-  // get work div
   const workBox = document.getElementById(id);
 
-  // create html elements
   const figure = document.createElement("figure");
   const figcaption = document.createElement("figcaption");
   const img = document.createElement("img");
@@ -15,7 +13,6 @@ const createNewWork = (name, imgUrl, id, edit = false, workId = 0, first = 0) =>
   binDiv.classList.add("bin");
 
 
-  // assign data in html elements
   img.setAttribute("src", imgUrl);
   img.setAttribute("crossorigin", "anonymous");
 
@@ -27,12 +24,10 @@ const createNewWork = (name, imgUrl, id, edit = false, workId = 0, first = 0) =>
   binDivMove.classList.add("binMove");
 
 
-  // assign data in html elements
   img.setAttribute("src", imgUrl);
   img.setAttribute("crossorigin", "anonymous");
   figcaption.innerHTML = edit ? "éditer" : name;
 
-  // if edit mode, add click action
   if (edit) {
     figure.addEventListener("click", function () {
       fetch(`http://localhost:5678/api/works/${workId}`, {
@@ -57,12 +52,8 @@ const createNewWork = (name, imgUrl, id, edit = false, workId = 0, first = 0) =>
     }
   }
 
-  // add html elements in parent element
   figure.appendChild(img);
   figure.appendChild(figcaption);
-  // figure.appendChild(binDiv);
-
-  // add created figure in work div
   workBox.appendChild(figure);
 };
 
